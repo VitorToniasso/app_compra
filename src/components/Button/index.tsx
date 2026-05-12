@@ -3,15 +3,13 @@ import { styles } from "./style";
 
 type Props = TouchableOpacityProps & {
   titulo: string;
-  onTeste?: () => void;
 };
 
-export function Button({ titulo, onTeste, ...rest }: Props) {
+export function Button({ titulo, ...rest }: Props) {
   return (
     <TouchableOpacity
       style={styles.container}
-      activeOpacity={0.7}
-      onPress={onTeste}
+      activeOpacity={0.5}
     >
       <Text style={styles.title}>{titulo}</Text>
     </TouchableOpacity>

@@ -3,15 +3,13 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
-  },
-  content: {
-    flexDirection: "row",
     gap: 7,
   },
   description: {
-    fontSize: 12,
+    flex: 1,
+    fontSize: 14,
     fontWeight: 600,
-    color: "#000",
   },
 });

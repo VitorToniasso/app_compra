@@ -1,31 +1,29 @@
-import { TouchableOpacity, View, Text } from "react-native";
-import type { FilterStatus } from "@/types/FilterStatus";
-import { StatusIcon } from "../StatusIcon";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Trash2 } from "lucide-react-native";
 import { styles } from "./style";
+import { StatusIcon } from "../StatusIcon";
+import { FilterStatus } from "@/types/FilterStatus";
 
-type itemData = {
+type ItemData = {
   status: FilterStatus;
   description: string;
 };
 
 type Props = {
-  data: itemData;
-  onStatus?: () => void;
-  onRemove?: () => void;
+  data: ItemData;
+  onRemove: () => void;
+  onStatus: () => void;
 };
 
-export function item({ data, onStatus, onRemove }: Props) {
+export function Item({ data, onRemove, onStatus }: Props) {
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <TouchableOpacity activeOpacity={0.8} onPress={onStatus}>
-          <StatusIcon status={data.status} />
-        </TouchableOpacity>
-        <Text style={styles.description}>{data.description}</Text>
-      </View>
+      <TouchableOpacity activeOpacity={0.8} onPress={onStatus}>
+        <StatusIcon status={data.status} />
+      </TouchableOpacity>
+      <Text style={styles.description}>{data.description}</Text>
       <TouchableOpacity activeOpacity={0.8} onPress={onRemove}>
-        <Trash2 size={18} color="#828282" />
+        <Trash2 color="#828282" size={16} />
       </TouchableOpacity>
     </View>
   );

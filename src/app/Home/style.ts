@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     paddingHorizontal: 24,
   },
-  filter: {
+  header: {
     flexDirection: "row",
     gap: 12,
     width: "100%",
@@ -26,12 +26,27 @@ export const styles = StyleSheet.create({
     borderColor: "#e4e6ec",
     paddingBottom: 16,
   },
-  clean: {
+  clearButton: {
     marginLeft: "auto",
   },
-  cleanText: {
-    color: "#828282",
+  clearText: {
     fontSize: 12,
+    color: "#828282",
     fontWeight: 600,
+  },
+  separator: {
+    width: "100%",
+    height: 1,
+    backgroundColor: "#eef0f5",
+    marginVertical: 16,
+  },
+  listContent: {
+    paddingTop: 24,
+    paddingBottom: 62,
+  },
+  empty: {
+    textAlign: "center",
+    fontSize: 14,
+    color: "#808080",
   },
 });

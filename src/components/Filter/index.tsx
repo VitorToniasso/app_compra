@@ -1,8 +1,7 @@
 import { FilterStatus } from "@/types/FilterStatus";
 import { styles } from "./styles";
 import { TouchableOpacity, TouchableOpacityProps, Text } from "react-native";
-import { CircleDashed } from "lucide-react-native";
-import { StatusIcon } from "../StatusIon";
+import { StatusIcon } from "../StatusIcon";
 
 type Props = TouchableOpacityProps & {
   status: FilterStatus;
