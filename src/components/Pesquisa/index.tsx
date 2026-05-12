@@ -5,8 +5,8 @@ export function Input({ ...rest }: TextInputProps) {
   return (
     <TextInput
       style={styles.container}
-      placeholder="Pesquisa Algo"
       placeholderTextColor="#74798B"
+      {...rest}
     />
   );
 }

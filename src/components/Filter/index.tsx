@@ -6,12 +6,14 @@ import { StatusIcon } from "../StatusIcon";
 type Props = TouchableOpacityProps & {
   status: FilterStatus;
   isActive: boolean;
+  onPress: () => void;
 };
 
-export function Filter({ status, isActive, ...rest }: Props) {
+export function Filter({ status, isActive, onPress, ...rest }: Props) {
   return (
     <TouchableOpacity
       style={[styles.container, { opacity: isActive ? 1 : 0.5 }]}
+      onPress={onPress}
       {...rest}
     >
       <StatusIcon status={status} />
