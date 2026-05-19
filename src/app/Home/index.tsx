@@ -12,21 +12,22 @@ import { Input } from "@/components/Pesquisa";
 import { FilterStatus } from "@/types/FilterStatus";
 import { Filter } from "@/components/Filter";
 import { Item } from "@/components/Item";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { ItemStorage } from "@/storage/itemStore";
 
 const FILTER_STATUS: FilterStatus[] = [FilterStatus.DONE, FilterStatus.PENDING];
-
-const ITEMS = [
-  { id: 1, status: FilterStatus.DONE, description: "Ricardo...." },
-  { id: 2, status: FilterStatus.PENDING, description: "Odebrecht...." },
-  { id: 3, status: FilterStatus.PENDING, description: "Vitor...." },
-  { id: 4, status: FilterStatus.DONE, description: "favela...." },
-  { id: 5, status: FilterStatus.PENDING, description: "favela...." },
-];
 
 export default function Home() {
   const [filter, setFilter] = useState(FilterStatus.PENDING);
   const [description, setDescription] = useState("");
+  const [items, setItems] = useState<ItemStorage[]>([]);
+
+  useEffect(() => {
+    console.log("usado uma vez só");
+  }, []);
+  useEffect(() => {
+    console.log("Toda vez que o estado mudar ele usa useEffect de novo");
+  }, [filter]);
 
   function handleStatus() {
     console.log("Status");
@@ -73,7 +74,7 @@ export default function Home() {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={ITEMS}
+          data={items}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <Item data={item} onRemove={handleRemove} onStatus={handleStatus} />
