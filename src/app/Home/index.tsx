@@ -22,6 +22,15 @@ export default function Home() {
   const [description, setDescription] = useState("");
   const [items, setItems] = useState<ItemStorage[]>([]);
 
+  function handleStatus() {
+    console.log("Status");
+  }
+  function handleRemove() {
+    console.log("Remover");
+  }
+  function handleClique() {
+    Alert.alert("Clicou");
+  }
   async function getItens() {
     try {
       const data = await itemStorage.get();
@@ -32,22 +41,6 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
-    console.log("usado uma vez só");
-  }, []);
-  useEffect(() => {
-    console.log("Toda vez que o estado mudar ele usa useEffect de novo");
-  }, [filter]);
-
-  function handleStatus() {
-    console.log("Status");
-  }
-  function handleRemove() {
-    console.log("Remover");
-  }
-  function handleClique() {
-    Alert.alert("Clicou");
-  }
   async function handleAdd() {
     if (!description.trim()) {
       Alert.alert("Atenção", "Informe a Descrição do Item");
@@ -59,10 +52,23 @@ export default function Home() {
       status: FilterStatus.PENDING,
     };
     await itemStorage.add(newItem);
-    await getItens();
+    await itemByStatus();
+    Alert.alert("Adicionado", `Adicionado o item: ${description}`);
+    setFilter(FilterStatus.PENDING);
 
     setDescription("");
   }
+
+  async function itemByStatus() {
+    try {
+      const resultado = await itemStorage.getByStatus(filter);
+      setItems(resultado);
+    } catch {}
+  }
+
+  useEffect(() => {
+    itemByStatus();
+  }, [filter]);
 
   return (
     <View style={styles.container}>
