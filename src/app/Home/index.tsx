@@ -13,7 +13,7 @@ import { FilterStatus } from "@/types/FilterStatus";
 import { Filter } from "@/components/Filter";
 import { Item } from "@/components/Item";
 import { useEffect, useState } from "react";
-import type { ItemStorage } from "@/storage/itemStore";
+import { type ItemStorage, itemStorage } from "@/storage/itemStore";
 
 const FILTER_STATUS: FilterStatus[] = [FilterStatus.DONE, FilterStatus.PENDING];
 
@@ -21,6 +21,16 @@ export default function Home() {
   const [filter, setFilter] = useState(FilterStatus.PENDING);
   const [description, setDescription] = useState("");
   const [items, setItems] = useState<ItemStorage[]>([]);
+
+  async function getItens() {
+    try {
+      const data = await itemStorage.get();
+      setItems(data);
+    } catch (error) {
+      console.error("Erro ao buscar itens:", error);
+      Alert.alert("Erro", "Não foi possível buscar os itens.");
+    }
+  }
 
   useEffect(() => {
     console.log("usado uma vez só");
@@ -38,12 +48,19 @@ export default function Home() {
   function handleClique() {
     Alert.alert("Clicou");
   }
-  function handleAdd() {
+  async function handleAdd() {
     if (!description.trim()) {
       Alert.alert("Atenção", "Informe a Descrição do Item");
       return;
     }
-    console.log("Clicou em Adicionar");
+    const newItem = {
+      id: Math.random().toString().substring(2),
+      description,
+      status: FilterStatus.PENDING,
+    };
+    await itemStorage.add(newItem);
+    await getItens();
+
     setDescription("");
   }
 
@@ -57,7 +74,6 @@ export default function Home() {
           value={description}
         />
         <Button titulo="Adicionar" onPress={handleAdd} />
-        <Text>{description}</Text>
       </View>
       <View style={styles.lista}>
         <View style={styles.header}>
