@@ -25,8 +25,14 @@ export default function Home() {
   function handleStatus() {
     console.log("Status");
   }
-  function handleRemove() {
-    console.log("Remover");
+  async function handleRemove(id: string) {
+    try {
+      await itemStorage.remove(id);
+      await itemByStatus();
+    } catch (error) {
+      console.error("Erro ao remover item:", error);
+      Alert.alert("Erro", "Não foi possível remover o item.");
+    }
   }
   function handleClique() {
     Alert.alert("Clicou");
@@ -99,7 +105,11 @@ export default function Home() {
           data={items}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <Item data={item} onRemove={handleRemove} onStatus={handleStatus} />
+            <Item
+              data={item}
+              onRemove={() => handleRemove(item.id)}
+              onStatus={handleStatus}
+            />
           )}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
