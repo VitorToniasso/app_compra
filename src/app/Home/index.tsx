@@ -22,9 +22,16 @@ export default function Home() {
   const [description, setDescription] = useState("");
   const [items, setItems] = useState<ItemStorage[]>([]);
 
-  function handleStatus() {
-    console.log("Status");
+  async function handleStatus(id: string) {
+    try {
+      await itemStorage.updateStatus(id);
+      await itemByStatus();
+    } catch (error) {
+      console.error("Erro ao atualizar status do item:", error);
+      Alert.alert("Erro", "Não foi possível atualizar o status do item.");
+    }
   }
+
   async function handleRemove(id: string) {
     try {
       await itemStorage.remove(id);
@@ -72,6 +79,23 @@ export default function Home() {
     } catch {}
   }
 
+  function handleClear() {
+    Alert.alert("Limpar", "Deseja realmente limpar todos os itens?", [
+      { text: "Não", style: "cancel" },
+      { text: "Sim", onPress: () => clearItem() },
+    ]);
+  }
+
+  async function clearItem() {
+    try {
+      await itemStorage.clear();
+      setItems([]);
+    } catch (error) {
+      console.error("Erro ao limpar itens:", error);
+      Alert.alert("Erro", "Não foi possível limpar os itens.");
+    }
+  }
+
   useEffect(() => {
     itemByStatus();
   }, [filter]);
@@ -97,7 +121,7 @@ export default function Home() {
               onPress={() => setFilter(status)}
             />
           ))}
-          <TouchableOpacity style={styles.clearButton} onPress={handleClique}>
+          <TouchableOpacity style={styles.clearButton} onPress={handleClear}>
             <Text style={styles.clearText}>Limpar</Text>
           </TouchableOpacity>
         </View>
@@ -108,7 +132,7 @@ export default function Home() {
             <Item
               data={item}
               onRemove={() => handleRemove(item.id)}
-              onStatus={handleStatus}
+              onStatus={() => handleStatus(item.id)}
             />
           )}
           showsVerticalScrollIndicator={false}
